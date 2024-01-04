@@ -6,7 +6,7 @@
 #include <string.h>
 #include <signal.h>
 
-#include "shell.h"
+/*#include "shell.h"*/
 
 #define MAX_LENGTH 1024
 
@@ -29,45 +29,44 @@ int main(int ac, char **av)
 
   while (1)
   {
-  if (getcwd(cwd, sizeof(cwd)) == NULL)
-  {
-    perror("Failed to get the current working directory");
-    break;
-  }
+    if (getcwd(cwd, sizeof(cwd)) == NULL)
+    {
+      perror("Failed to get the current working directory");
+      break;
+    }
   
-  printf("$ ");
+    printf("$ ");
 
-  if ((read_line = getline(&line, &line_len, stdin)) != -1)
-  {
-    if (line[strlen(line) - 1] == '\n')
-      line[strlen(line) - 1] = '\0';
+    if ((read_line = getline(&line, &line_len, stdin)) != -1)
+    {
+      if (line[strlen(line) - 1] == '\n')
+        line[strlen(line) - 1] = '\0';
 
-    command[0] = line;
-    process = fork();
-    if (process < 0)
-    {
-      perror("Unable to create a new process");
-      break;
-    }
-    else if (process == 0)
-    {
-      execve(command[0], (char *const *)command, NULL);
-      printf("%s: No such file or directory", cwd);
-      break;
-    }
-    else
-    {
-      wait(&status);
-    }
+      command[0] = line;
+      process = fork();
+      if (process < 0)
+      {
+        perror("Unable to create a new process");
+        break;
+      }
+      else if (process == 0)
+      {
+        execve(command[0], (char *const *)command, NULL);
+        printf("%s: No such file or directory", av[1]);
+        break;
+      }
+      else
+      {
+        wait(&status);
+      }
 
-    if (read_line == -1)
-    {
-      printf("%s: No such file or directory", av[1]);
-      break;
+      if (read_line == -1)
+      {
+        printf("%s: No such file or directory", av[1]);
+        break;
+        _exit(EXIT_FAILURE)
+      }
     }
-  }
-
-  printf("\n");
   }
 
   free(line);
