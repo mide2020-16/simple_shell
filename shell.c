@@ -19,7 +19,7 @@ int main(void)
   ssize_t read_line;
 
   pid_t process;
-  char *const command[MAX_LENGTH] = {line, NULL};
+  char *const command[MAX_LENGTH];
 
   while (1)
   {
@@ -36,6 +36,7 @@ int main(void)
     if (line[strlen(line) - 1] == '\n')
       line[strlen(line) - 1] = '\0';
 
+    command = {line, NULL};
     process = fork();
     if (process < 0)
     {
