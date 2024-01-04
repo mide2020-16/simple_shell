@@ -14,12 +14,12 @@ int main(void)
 {
   char *line = NULL;
   char cwd[MAX_LENGTH];
-  char *const *command[MAX_LENGTH];
   int status;
   size_t line_len = 0;
   ssize_t read_line;
 
   pid_t process;
+  char *const command[MAX_LENGTH] = {line, NULL};
 
   while (1)
   {
@@ -36,7 +36,6 @@ int main(void)
     if (line[strlen(line) - 1] == '\n')
       line[strlen(line) - 1] = '\0';
 
-    command = {line, NULL};
     process = fork();
     if (process < 0)
     {
