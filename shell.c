@@ -18,6 +18,7 @@ int main(void)
   int status;
   size_t line_len = 0;
   ssize_t read_line;
+
   pid_t process;
 
   while (1)
@@ -35,8 +36,8 @@ int main(void)
     if (line[strlen(line) - 1] == '\n')
       line[strlen(line) - 1] = '\0';
 
+    command = {line, NULL};
     process = fork();
-    command = { line, NULL}
     if (process < 0)
     {
       perror("Unable to create a new process");
