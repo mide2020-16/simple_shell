@@ -19,7 +19,7 @@ int main(void)
   ssize_t read_line;
 
   pid_t process;
-  char *const command[MAX_LENGTH] = {NULL, NULL};
+  char *command[MAX_LENGTH] = {NULL, NULL};
 
   while (1)
   {
