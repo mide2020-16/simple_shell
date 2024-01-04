@@ -48,7 +48,6 @@ int main(void)
       execve(command[0], (char *const *)command, NULL);
       printf("%s: No such file or directory", cwd);
       break;
-      exit(EXIT_FAILURE);
     }
     else
     {
