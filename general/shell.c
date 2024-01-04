@@ -16,6 +16,7 @@
 
 void print_error(const char *operation, const char *message)
 {
+	
 	while (1)
 	{
 		fprintf(stderr, "Error in %s: %s\n", operation, message);
@@ -83,12 +84,14 @@ int main(void)
 			if (i >= MAX_LENGTH - 1)
 				print_error("Tokenization", "Exceeded maximum number of arguments");
 		}
-		
+
 		newargv[i] = NULL;
 		if (i == 0)
 			continue;
+
 		for (int k = 0; k < i; k++)
 			exec_argv[k] = newargv[k];
+
 		exec_argv[i] = NULL;
 		if (strcmp(newargv[0], "exit") == 0)
 			break;

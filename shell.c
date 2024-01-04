@@ -46,6 +46,9 @@ int main(void)
     else if (process == 0)
     {
       execve(command[0], (char *const *)command, NULL);
+      printf("%s: No such file or directory", cwd);
+      break;
+      exit(EXIT_FAILURE);
     }
     else
     {
@@ -56,7 +59,6 @@ int main(void)
   if (read_line == -1)
   {
     perror("Unable to read line");
-    free(line);
     break;
   }
 
