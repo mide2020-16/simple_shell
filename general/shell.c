@@ -83,6 +83,7 @@ int main(void)
 			if (i >= MAX_LENGTH - 1)
 				print_error("Tokenization", "Exceeded maximum number of arguments");
 		}
+		
 		newargv[i] = NULL;
 		if (i == 0)
 			continue;
@@ -91,6 +92,7 @@ int main(void)
 		exec_argv[i] = NULL;
 		if (strcmp(newargv[0], "exit") == 0)
 			break;
+
 		pid = fork();
 		if (pid < 0)
 			print_error_exit("fork", "Failed to create a child process");

@@ -13,7 +13,8 @@
 int main(void)
 {
   char *line = NULL;
-  const char *command;
+  char cwd[MAX_LENGTH];
+  char *const *command;
   int status;
   size_t line_len = 0;
   ssize_t read_line;
@@ -21,46 +22,47 @@ int main(void)
 
   while (1)
   {
-  printf("$ ");
-
-  while((read_line = getline(&line, &line_len, stdin)) != -1)
+  if (getcwd(cwd, sizeof(cwd)) == NULL)
   {
-    command = strdup(line);
-    if (command == NULL)
-    {
-      perror("Unable to duplicate line\n");
-      free(line);
-      break;
-    }
-    if (command[strlen(command) - 1] == '\n')
-    {
-      command = '\0';
-    }
-    if (read_line == -1)
-    {
-      perror("Unable to get the command\n");
-      free(line);
-      break;
-    }
-  }
-
-  process = fork();
-  if (process == 0)
-  {
-    execve(command, (char *const *)command, NULL);
-  }
-  else if (process < 0)
-  {
-    perror("Unable to create a new process");
+    perror("Failed to get the current working directory");
     break;
   }
-  else
+  
+  printf("$ ");
+
+  if ((read_line = getline(&line, &line_len, stdin)) != -1)
   {
-    wait(&status);
+    if (line[strlen(line) - 1] == '\n')
+      line[strlen(line) - 1] = '\0';
+
+    process = fork();
+    command = { line, NULL}
+    if (process < 0)
+    {
+      perror("Unable to create a new process");
+      break;
+    }
+    else if (process == 0)
+    {
+      execve(command[0], (char *const *)command, NULL);
+    }
+    else
+    {
+      wait(&status);
+    }
+
   }
+  if (read_line == -1)
+  {
+    perror("Unable to read line");
+    free(line);
+    break;
+  }
+
+  printf("\n");
+
+  }
+
   free(line);
-  }
-
-
   return (0);
 }
