@@ -36,7 +36,7 @@ int main(void)
     if (line[strlen(line) - 1] == '\n')
       line[strlen(line) - 1] = '\0';
 
-    command = {line, NULL};
+    command = (char *const[]){line, NULL};
     process = fork();
     if (process < 0)
     {
