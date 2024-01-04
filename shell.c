@@ -13,7 +13,7 @@
 int main(void)
 {
   char *line = NULL;
-  char *command[MAX_LENGTH];
+  const char *command;
   int status;
   size_t line_len = 0;
   ssize_t read_line;
@@ -25,11 +25,11 @@ int main(void)
 
   while((read_line = getline(&line, &line_len, stdin)) != -1)
   {
-    command = strdup(read_line);
+    command = strdup(line);
     if (command == NULL)
     {
       perror("Unable to duplicate line\n");
-      free(read_line);
+      free(line);
       break;
     }
     if (command[strlen(command) - 1] == '\n')
@@ -56,7 +56,7 @@ int main(void)
   }
   else
   {
-    wait($status);
+    wait(&status);
   }
   free(line);
   }
