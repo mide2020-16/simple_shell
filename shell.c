@@ -10,7 +10,7 @@
 
 #define MAX_LENGTH 1024
 
-int main(void)
+int main(int ac, char **av)
 {
   char *line = NULL;
   char cwd[MAX_LENGTH];
@@ -20,6 +20,12 @@ int main(void)
 
   pid_t process;
   char *command[MAX_LENGTH] = {NULL, NULL};
+
+  if (ac != 1)
+  {
+    perror("Usage: simple_shell\n");
+    return (1);
+  }
 
   while (1)
   {
@@ -54,15 +60,14 @@ int main(void)
       wait(&status);
     }
 
-  }
-  if (read_line == -1)
-  {
-    perror("Unable to read line");
-    break;
+    if (read_line == -1)
+    {
+      printf("%s: No such file or directory", av[1]);
+      break;
+    }
   }
 
   printf("\n");
-
   }
 
   free(line);
