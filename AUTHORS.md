@@ -11,4 +11,4 @@ You can follow me on twitter
 You can follow me on LinkedIn
 
 ## Instagram
-I am on instagram as 
+I am on instagram as
