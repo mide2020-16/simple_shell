@@ -14,7 +14,7 @@ int main(void)
 {
   char *line = NULL;
   char cwd[MAX_LENGTH];
-  char *const *command;
+  char *const *command[MAX_LENGTH];
   int status;
   size_t line_len = 0;
   ssize_t read_line;
@@ -36,7 +36,7 @@ int main(void)
     if (line[strlen(line) - 1] == '\n')
       line[strlen(line) - 1] = '\0';
 
-    command = (char *const[]){line, NULL};
+    command = {line, NULL};
     process = fork();
     if (process < 0)
     {
