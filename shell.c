@@ -39,7 +39,7 @@ int main(void)
     if (read_line == -1)
     {
       perror("Unable to get the command\n");
-      free(read_line);
+      free(line);
       break;
     }
   }
