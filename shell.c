@@ -13,7 +13,7 @@
 int main(void)
 {
   char *line = NULL;
-  const char *command[MAX_LENGTH];
+  const char *command;
   int status;
   size_t line_len = 0;
   ssize_t read_line;
@@ -34,7 +34,7 @@ int main(void)
     }
     if (command[strlen(command) - 1] == '\n')
     {
-      command[strlen(command) - 1] = '\0';
+      command = '\0';
     }
     if (read_line == -1)
     {
