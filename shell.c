@@ -64,7 +64,7 @@ int main(int ac, char **av)
       {
         printf("%s: No such file or directory", av[1]);
         break;
-        _exit(EXIT_FAILURE)
+        _exit(EXIT_FAILURE);
       }
     }
   }
