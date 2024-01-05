@@ -66,6 +66,7 @@ int main(void)
 					_exit(EXIT_FAILURE);
 				}
 			}
+
 			else
 				wait(&status);
 		}
