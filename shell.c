@@ -39,39 +39,40 @@ int main(void)
 				printf("\n");
 				break;
 			}
-			perror(line);
-			break;
-		}
 
-		if (line[strlen(line) - 1] == '\n')
-			line[strlen(line) - 1] = '\0';
+			if (line[strlen(line) - 1] == '\n')
+				line[strlen(line) - 1] = '\0';
 
-		token = strtok(line, " ");
-		args[0] = token;
+			token = strtok(line, " ");
+			args[0] = token;
 
-		process = fork();
+			process = fork();
 
-		if (process < 0)
-		{
-			perror("Unable to create a new process");
-			break;
-		}
-		else if (process == 0)
-		{
-			if (access(line, X_OK) == 0)
+			if (process < 0)
 			{
-				execve(token, (char * const *)args, NULL);
-				perror(token);
-				_exit(EXIT_FAILURE);
+				perror("Unable to create a new process");
+				break;
+			}
+			else if (process == 0)
+			{
+				if (access(line, X_OK) == 0)
+				{
+					execve(token, (char *const *)args, NULL);
+					perror(token);
+					_exit(EXIT_FAILURE);
+				}
+				else
+				{
+					perror(token);
+					_exit(EXIT_FAILURE);
+				}
 			}
 			else
-			{
-				perror(token);
-				_exit(EXIT_FAILURE);
-			}
+				wait(&status);
 		}
-		else
-			wait(&status);
+
+		perror(line);
+		break;
 	}
 
 	free(line);
