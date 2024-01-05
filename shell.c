@@ -47,6 +47,7 @@ int main(int ac, char **av)
       if (process < 0)
       {
         perror("Unable to create a new process");
+        exit(EXIT_FAILURE);
         break;
       }
       else if (process == 0)
