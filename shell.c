@@ -59,7 +59,6 @@ int main(void)
 				{
 					execve(token, (char *const *)args, NULL);
 					perror(token);
-					_exit(EXIT_FAILURE);
 				}
 				else
 				{
