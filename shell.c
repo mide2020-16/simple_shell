@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <fcntl.h>
+#include <dirent.h>
 
 /*#include "shell.h"*/
 
@@ -12,7 +14,7 @@
 
 int main(void)
 {
-	char *line = NULL, *token, char cwd[MAX_LENGTH];
+	char *line = NULL, *token, cwd[MAX_LENGTH];
 	int status;
 	size_t line_len = 0;
 	ssize_t read_line;
@@ -37,7 +39,7 @@ int main(void)
 				printf("\n");
 				break;
 			}
-			perror(command[0]);
+			perror(line);
 			break;
 		}
 
@@ -45,7 +47,7 @@ int main(void)
 			line[strlen(line) - 1] = '\0';
 
 		token = strtok(line, " ");
-		args = {token, NULL};
+		args[0] = token;
 
 		process = fork();
 
