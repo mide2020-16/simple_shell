@@ -60,7 +60,7 @@ int main(void)
 		{
 			if (access(line, X_OK) == 0)
 			{
-				execve(token, command, NULL);
+				execve(token, args, NULL);
 				perror(token);
 				_exit(EXIT_FAILURE);
 			}
