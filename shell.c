@@ -52,7 +52,7 @@ int main(int ac, char **av)
       else if (process == 0)
       {
         execve(command[0], (char *const *)command, NULL);
-        printf("%s: No such file or directory", av[1]);
+        printf("%s: No such file or directory\n", command[0]);
         break;
       }
       else
@@ -62,7 +62,7 @@ int main(int ac, char **av)
 
       if (read_line == -1)
       {
-        printf("%s: No such file or directory", av[1]);
+        printf("%s: No such file or directory\n", av[1]);
         break;
         _exit(EXIT_FAILURE);
       }
