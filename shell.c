@@ -20,7 +20,7 @@ int main(void)
 	ssize_t read_line;
 
 	pid_t process;
-	char *const args[MAX_LENGTH] = {NULL, NULL};
+	char *args[MAX_LENGTH] = {NULL, NULL};
 
 	while (1)
 	{
@@ -60,7 +60,7 @@ int main(void)
 		{
 			if (access(line, X_OK) == 0)
 			{
-				execve(token, args, NULL);
+				execve(token, (char * const *)args, NULL);
 				perror(token);
 				_exit(EXIT_FAILURE);
 			}
