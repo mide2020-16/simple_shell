@@ -40,6 +40,9 @@ int main(void)
 				break;
 			}
 
+			perror(line);
+			break;
+
 			if (line[strlen(line) - 1] == '\n')
 				line[strlen(line) - 1] = '\0';
 
@@ -70,9 +73,6 @@ int main(void)
 			else
 				wait(&status);
 		}
-
-		perror(line);
-		break;
 	}
 
 	free(line);
