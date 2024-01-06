@@ -144,7 +144,7 @@ int main(void)
 			signal(SIGINT, SIG_DFL);
 			execve(newargv[0], (char *const *)exec_argv, NULL);
 			free(line);
-			perror(execve);
+			perror("execve");
 		}
 		else
 		{
