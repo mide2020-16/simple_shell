@@ -35,12 +35,12 @@ void sigint_handler(int signum)
  * @message: the message to pass
  */
 
-void print_error(const char *operation, const char *message)
+void print_error(const char *operation)
 {
 
 	while (1)
 	{
-		fprintf(stderr, "Error in %s: %s\n", operation, message);
+		perror(operation);
 		break;
 	}
 }
@@ -51,9 +51,9 @@ void print_error(const char *operation, const char *message)
  * @message: The message to pass
  */
 
-void print_error_exit(const char *operation, const char *message)
+void print_error_exit(const char *operation)
 {
-	print_error(operation, message);
+	print_error(operation);
 	exit(EXIT_FAILURE);
 }
 
@@ -87,27 +87,21 @@ int main(void)
 	while (1)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
-			print_error("getcwd", "Failed to get current working directory");
+		{
+			print_error("getcwd");
+			free(line);
+		}
 
-		printf("Simple Shell (%s)>: \n", cwd);
+		printf("$ ");
 
 		if (getline(&line, &len, stdin) == -1)
-			print_error("fgets", "Failed to read input");
+			print_error("getline");
 
-		if (line == NULL)
-		{
-			break;
-		}
-		if (feof(stdin))
-		{
-			perror("feof");
-			break;
-		}
+		if (feof(stdin) == 0)
+			print_error("feof");
 
 		for (j = 0; j < strlen(line); j++)
-		{
 			command[j++] = *line;
-		}
 
 		command[j] = '\0';
 
@@ -118,10 +112,11 @@ int main(void)
 		{
 			newargv[i++] = token;
 			if (i >= MAX_LENGTH - 1)
-				print_error("Tokenization", "Exceeded maximum number of arguments");
+				print_error("Tokenization");
 		}
 
 		newargv[i] = NULL;
+
 		if (i == 0)
 			continue;
 
@@ -129,17 +124,19 @@ int main(void)
 			exec_argv[k] = newargv[k];
 
 		exec_argv[i] = NULL;
+
 		if (strcmp(newargv[0], "exit") == 0)
 			break;
 
 		pid = fork();
+
 		if (pid < 0)
-			print_error_exit("fork", "Failed to create a child process");
+			print_error_exit("fork");
 		else if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
 			execve(newargv[0], (char *const *)exec_argv, NULL);
-			print_error_exit("execve", "Execution failed");
+			print_error_exit("execve");
 		}
 		else
 		{
