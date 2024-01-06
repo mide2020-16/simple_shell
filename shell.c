@@ -79,10 +79,10 @@ void wait_signal(int status)
 
 int main(void)
 {
-	int i = 0, status, j;
+	int i = 0, status, k;
 	pid_t pid;
 	char command[MAX_LENGTH], *token, *newargv[MAX_LENGTH], *exec_argv[MAX_LENGTH], cwd[MAX_LENGTH], *line;
-	size_t len = 0;
+	size_t len = 0, j;
 
 	while (1)
 	{
@@ -125,7 +125,7 @@ int main(void)
 		if (i == 0)
 			continue;
 
-		for (int k = 0; k < i; k++)
+		for (k = 0; k < i; k++)
 			exec_argv[k] = newargv[k];
 
 		exec_argv[i] = NULL;
