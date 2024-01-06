@@ -8,14 +8,14 @@
 
 #define MAX_LENGTH 1024
 
-volatile sig_atomic_t child_pid;
+/*volatile sig_atomic_t child_pid;*/
 
 /**
  * sigint_handler - This helps to handle Ctrl+C
  * @sigmun: this is a void variable
 */
 
-void sigint_handler(int signum)
+/*void sigint_handler(int signum)
 {
 	(void)signum;
 
@@ -26,7 +26,7 @@ void sigint_handler(int signum)
 	}
 
 	fflush(stdout);
-}
+}*/
 
 /**
  * print_error - Prints error message
@@ -56,7 +56,7 @@ void print_error_exit(const char *operation)
  * @status: the status of child process
  */
 
-void wait_signal(int status)
+/*void wait_signal(int status)
 {
 	if (WIFEXITED(status))
 		printf("The child process exited with status %d\n", WEXITSTATUS(status));
@@ -65,6 +65,7 @@ void wait_signal(int status)
 	else
 		printf("The child process did not terminate properly\n");
 }
+*/
 
 /**
  * main - Entry point
@@ -139,20 +140,20 @@ int main(void)
 			print_error_exit("fork");
 		else if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
+			/*signal(SIGINT, SIG_DFL);*/
 			if (execve(newargv[0], (char *const *)exec_argv, NULL) == -1)
 			{
-				free(line);
 				print_error_exit("execve");
 			}
+			free(line);
 		}
 		else
 		{
-			child_pid = pid;
-			signal(SIGINT, sigint_handler);
+			/*child_pid = pid;*/
+			/*signal(SIGINT, sigint_handler);*/
 			wait(&status);
-			wait_signal(status);
-			child_pid = 0;
+			/*wait_signal(status);*/
+			/*child_pid = 0;*/
 		}
 	}
 
