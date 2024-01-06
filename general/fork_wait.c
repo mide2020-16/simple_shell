@@ -30,7 +30,7 @@ int main(void)
 
 			newargv[] = {"ls", "-l", "/tmp", NULL};
 
-			if (execve("/bin/ls", newargv, NULL) == -1)
+			if (execve("/bin/ls", (char *const *)newargv, NULL) == -1)
 			{
 				perror("Error:");
 				exit(EXIT_FAILURE);
