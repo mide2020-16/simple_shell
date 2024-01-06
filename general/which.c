@@ -13,9 +13,22 @@ void which(char *command)
 	char *path;
 	char *token;
 	char full_path[BUFSIZ];
+	char *path_copy;
 
 	path = getenv("PATH");
-	token = strtok(path, ":");
+
+	if (path == NULL)
+	{
+		printf("Environment PATH variable not set\n");
+		return;
+	}
+	path_copy = strdup(path);
+	if (path_copy == NULL)
+	{
+		perror("strdup");
+		return;
+	}
+	token = strtok(path_copy, ":");
 
 	while (token != NULL)
 	{
@@ -24,12 +37,14 @@ void which(char *command)
 		if (access(full_path, F_OK) == 0)
 		{
 			printf("%s", full_path);
+			free(path_copy);
 			return;
 		}
+		token = strtok(NULL, ":");
 	}
 
-	token = strtok(NULL, ":");
 
+	free(path_copy);
 	printf("Path does not exist");
 }
 

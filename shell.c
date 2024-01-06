@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <sys/types.h>
-#include <sys/wait.h>
+/*#include <sys/wait.h>*/
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +25,6 @@ void sigint_handler(int signum)
 		printf("\nChild process terminated by Ctrl+C\n");
 	}
 
-	printf("$ ");
 	fflush(stdout);
 }
 
@@ -92,7 +91,7 @@ int main(void)
 		if (getline(&line, &len, stdin) == -1)
 		{
 			free(line);
-			print_error("getline");
+			/*print_error("getline");*/
 			exit(EXIT_FAILURE);
 		}
 
@@ -144,7 +143,7 @@ int main(void)
 			signal(SIGINT, SIG_DFL);
 			execve(newargv[0], (char *const *)exec_argv, NULL);
 			free(line);
-			perror("execve");
+			print_error_exit("execve");
 		}
 		else
 		{
