@@ -140,9 +140,11 @@ int main(void)
 		else if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
-			execve(newargv[0], (char *const *)exec_argv, NULL);
-			free(line);
-			print_error_exit("execve");
+			if (execve(newargv[0], (char *const *)exec_argv, NULL) == -1)
+			{
+				free(line);
+				print_error_exit("execve");
+			}
 		}
 		else
 		{

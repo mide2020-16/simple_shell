@@ -13,6 +13,7 @@ int main(void)
 {
 	int i, status;
 	pid_t pid;
+	char *const newargv;
 
 	for (i = 0; i < 5; ++i)
 	{
@@ -27,7 +28,7 @@ int main(void)
 		{
 			printf("Child process %d running ls -l /tmp", i + 1);
 
-			char *const newargv[] = {"ls", "-l", "/tmp", NULL};
+			newargv[] = {"ls", "-l", "/tmp", NULL};
 
 			if (execve("/bin/ls", newargv, NULL) == -1)
 			{
