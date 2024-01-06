@@ -37,12 +37,7 @@ void sigint_handler(int signum)
 
 void print_error(const char *operation)
 {
-
-	while (1)
-	{
 		perror(operation);
-		break;
-	}
 }
 
 /**
@@ -89,16 +84,23 @@ int main(void)
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 		{
 			print_error("getcwd");
-			free(line);
+			exit(EXIT_FAILURE);
 		}
 
 		printf("$ ");
 
 		if (getline(&line, &len, stdin) == -1)
+		{
+			free(line);
 			print_error("getline");
+			exit(EXIT_FAILURE);
+		}
 
-		if (feof(stdin) == 0)
-			print_error("feof");
+		if (line == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
 
 		for (j = 0; j < strlen(line); j++)
 			command[j++] = *line;
@@ -110,9 +112,14 @@ int main(void)
 
 		for (token = strtok(command, " "); token != NULL; token = strtok(NULL, " "))
 		{
-			newargv[i++] = token;
 			if (i >= MAX_LENGTH - 1)
+			{
 				print_error("Tokenization");
+				free(line);
+				break;
+			}
+
+			newargv[i++] = token;
 		}
 
 		newargv[i] = NULL;
@@ -136,7 +143,8 @@ int main(void)
 		{
 			signal(SIGINT, SIG_DFL);
 			execve(newargv[0], (char *const *)exec_argv, NULL);
-			print_error_exit("execve");
+			free(line);
+			perror(execve);
 		}
 		else
 		{
