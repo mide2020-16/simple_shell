@@ -101,7 +101,7 @@ int main(void)
 		}
 
 		for (j = 0; j < strlen(line); j++)
-			command[j++] = line[j];
+			command[j++] = *line;
 
 		command[j] = '\0';
 
