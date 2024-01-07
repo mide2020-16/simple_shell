@@ -76,7 +76,7 @@ int main(void)
 		{
 			wait(&status);
 			
-			for (k = 0; new_argv[k] != NULL; k++)_
+			for (k = 0; new_argv[k] != NULL; k++)
 				free(new_argv[k]);
 		}
 	}
