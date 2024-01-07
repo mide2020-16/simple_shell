@@ -10,14 +10,15 @@
 
 int main(void)
 {
-	char *cwd[MAX_LENGTH];
+	char cwd[MAX_LENGTH];
 	char *line;
 	size_t len;
 	ssize_t nread, j;
-	int i, status;
-	char *command[MAX_LENGTH];
+	int i, k;
+	int status;
+	char command[MAX_LENGTH];
 	char *token;
-	char *new_argv;
+	char *new_argv[MAX_LENGTH];
 	pid_t create_process;
 
 	while (1)
@@ -27,8 +28,10 @@ int main(void)
 			perror("getcwd");
 			break;
 		}
+		line = NULL;
+		i = 0;
 
-		write(stdout, "$ ", 2);
+		write(STDOUT_FILENO, "$ ", 2);
 
 		if ((nread = getline(&line, &len, stdin)) != -1)
 		{
@@ -52,9 +55,10 @@ int main(void)
 				perror("strtok");
 				break;
 			}
-			new_argv[i] = *token;
+			new_argv[i] = strdup(token);
 
 		}
+
 		new_argv[i] = NULL;
 
 		if (i == 0)
@@ -62,9 +66,9 @@ int main(void)
 			continue;
 		}
 
-		if (strcmp(new_argv[0], "exit"))
+		if (strcmp(new_argv, "exit") == 0)
 		{
-			write(stdout, "\n", 1);
+			write(STDOUT_FILENO, "\n", 1);
 			exit(EXIT_FAILURE);
 		}
 
@@ -81,10 +85,16 @@ int main(void)
 				perror("execve");
 			}
 
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
 			wait(&status);
+			
+			for (k = 0; new_argv[k] != NULL; k++)
+			{
+				free(new_argv[k]);
+			}
 		}
 	}
 
