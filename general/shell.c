@@ -70,7 +70,7 @@ int main(void)
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 			print_error("getcwd", "Failed to get current working directory");
 
-		printf("Simple Shell (%s)>: \n", cwd);
+		printf("Simple Shell (%s)>: ", cwd);
 
 		if (fgets(command, sizeof(command), stdin) == NULL)
 			print_error("fgets", "Failed to read input");

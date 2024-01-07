@@ -1,69 +1,93 @@
 #include <stdio.h>
-#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+#include <signal.h>
 
-/**
- * which - Get the path of a file
- * @command: the file to search
-*/
+#define MAX_LENGTH 1024
 
-void which(char *command)
+int main(void)
 {
-	char *path;
+	char *cwd[MAX_LENGTH];
+	char *line;
+	size_t len;
+	ssize_t nread, j;
+	int i, status;
+	char *command[MAX_LENGTH];
 	char *token;
-	char full_path[BUFSIZ];
-	char *path_copy;
+	char *new_argv;
+	pid_t create_process;
 
-	path = getenv("PATH");
-
-	if (path == NULL)
+	while (1)
 	{
-		printf("Environment PATH variable not set\n");
-		return;
-	}
-	path_copy = strdup(path);
-	if (path_copy == NULL)
-	{
-		perror("strdup");
-		return;
-	}
-	token = strtok(path_copy, ":");
-
-	while (token != NULL)
-	{
-		snprintf(full_path, sizeof(full_path), "%s/%s", token, command);
-
-		if (access(full_path, F_OK) == 0)
+		if (getcwd(cwd, sizeof(cwd)) == NULL)
 		{
-			printf("%s", full_path);
-			free(path_copy);
-			return;
+			perror("getcwd");
+			break;
 		}
-		token = strtok(NULL, ":");
+
+		write(stdout, "$ ", 2);
+
+		if ((nread = getline(&line, &len, stdin)) != -1)
+		{
+			for (j = 0; j < nread; j++)
+			{
+				command[j++] = line[j];
+			}
+
+			if (command[strlen(command) - 1] == '\n')
+			{
+				command[strlen(command) - 1] = '\0';
+			}
+		}
+
+		perror("getline");
+
+		for (token = strtok(command, " "); token != NULL; token = strtok(NULL, " "), i++)
+		{
+			if (i >= MAX_LENGTH - 1)
+			{
+				perror("strtok");
+				break;
+			}
+			new_argv[i] = *token;
+
+		}
+		new_argv[i] = NULL;
+
+		if (i == 0)
+		{
+			continue;
+		}
+
+		if (strcmp(new_argv[0], "exit"))
+		{
+			write(stdout, "\n", 1);
+			exit(EXIT_FAILURE);
+		}
+
+		create_process = fork();
+
+		if (create_process < 0)
+		{
+			perror("fork");
+		}
+		else if (create_process == 0)
+		{
+			if (execve(new_argv[0], (char *const *)new_argv, NULL) == -1)
+			{
+				perror("execve");
+			}
+
+		}
+		else
+		{
+			wait(&status);
+		}
 	}
 
-
-	free(path_copy);
-	printf("Path does not exist");
-}
-
-/**
- * main - Entry point
- * @argc: the count
- * @argv: the vector
- * Return: 0 on Success
-*/
-
-int main(int argc, char *argv[])
-{
-	if (argc != 2)
-	{
-		fprintf(stderr, "Usage: %s filename ...\n", argv[0]);
-		return (EXIT_FAILURE);
-	}
-
-	which(argv[1]);
-
-	return (EXIT_SUCCESS);
+	free(line);
+	return (0);
 }
