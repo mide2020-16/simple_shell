@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-  (void)argc, (vid)argv;
+  (void)argc, (void)argv;
   char *buffer;
   size_t n;
   ssize_t nread;
@@ -27,6 +27,13 @@ int main(int argc, char *argv[])
     token = strtok(buffer, " \n");
 
     array = malloc(sizeof(char *) * MAX_LEN);
+
+    if (array == NULL)
+    {
+      perror("Memory allocation failed\n");
+      return (-1);
+    }
+
     i = 0;
 
     while (token)
@@ -36,13 +43,13 @@ int main(int argc, char *argv[])
       i++;
     }
 
-    array[i] == NULL;
+    array[i] = NULL;
 
     child_pid = fork();
 
     if (child_pid == -1)
     {
-      perror(fork);
+      perror("fork");
       exit(41);
     }
 
@@ -50,7 +57,7 @@ int main(int argc, char *argv[])
     {
       if (execve(array[0], array, NULL) == -1)
       {
-        perror(execve);
+        perror("execve");
         exit(97);
       }
     }
@@ -61,6 +68,7 @@ int main(int argc, char *argv[])
     
   }
 
+  free(array);
   free(buffer);
   return (0);
 }
