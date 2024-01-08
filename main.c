@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 int main(int argc, char *argv[])
 {
   (void)argc, (void)argv;
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
   char *token;
   char **array;
   int i;
+  char *path;
 
   while (1)
   {
@@ -45,7 +47,12 @@ int main(int argc, char *argv[])
 
     array[i] = NULL;
 
-    child_pid = fork();
+    path = get_file_path(array[0]);
+
+    if (path != NULL)
+    {
+      child_pid = fork();
+    }
 
     if (child_pid == -1)
     {
@@ -55,7 +62,7 @@ int main(int argc, char *argv[])
 
     if (child_pid == 0)
     {
-      if (execve(array[0], array, NULL) == -1)
+      if (execve(path, array, NULL) == -1)
       {
         perror("execve");
         exit(97);
