@@ -1,22 +1,66 @@
-#include <stdio.h>
+#include "main.h"
 
-/**
- * print_hello - Prints "Hello, Betty!"
- */
-
-void print_hello(void)
+int main(int argc, char *argv[])
 {
-  printf("Hello, Betty!\n");
-}
+  (void)argc, (vid)argv;
+  char *buffer;
+  size_t n;
+  ssize_t nread;
+  pid_t child_pid;
+  int status;
+  char *token;
+  char **array;
+  int i;
 
-/**
- * main - Entry point of the program
- *
- * Return: 0 on success
- */
+  while (1)
+  {
+    write(STDOUT_FILENO, "$ ", 2);
 
-int main(void)
-{
-  print_hello();
-  return 0;
+    nread = getline(&buffer, &n, stdin);
+
+    if (nread == -1)
+    {
+      perror("getline");
+      exit(1);
+    }
+
+    token = strtok(buffer, " \n");
+
+    array = malloc(sizeof(char *) * MAX_LEN);
+    i = 0;
+
+    while (token)
+    {
+      array[i] = token;
+      token = strtok(NULL, " \n");
+      i++;
+    }
+
+    array[i] == NULL;
+
+    child_pid = fork();
+
+    if (child_pid == -1)
+    {
+      perror(fork);
+      exit(41);
+    }
+
+    if (child_pid == 0)
+    {
+      if (execve(array[0], array, NULL) == -1)
+      {
+        perror(execve);
+        exit(97);
+      }
+    }
+    else
+    {
+      wait(&status);
+    }
+    
+  }
+
+  free(buffer);
+  return (0);
 }
