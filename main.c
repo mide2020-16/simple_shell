@@ -20,11 +20,11 @@ void perr_exit(char *message, int exit_code)
 */
 int main(int argc, char *argv[])
 {
-	char *buffer, *token, **array, *path;
+	char *buffer, *token, **array, *path, **env;
 	size_t n;
 	ssize_t nread;
 	pid_t child_pid;
-	int status, i;
+	int status, i, j;
 
 	(void)argc, (void)argv;
 
@@ -38,17 +38,35 @@ int main(int argc, char *argv[])
 		nread = getline(&buffer, &n, stdin);
 
 		if (nread == -1)
-			exit(1);
+			perr_exit("Unable to read the line\n", 1);
+		
+		if (strcmp(buffer, "exit\n") == 0)
+		{
+			free(buffer);
+			exit(EXIT_SUCCESS);
+		}
 
+		if (strcmp(buffer, "env\n") == 0)
+		{
+			env = environ;
+			j = 0;
+
+			while(env[j] != NULL)
+			{
+				write(STDOUT_FILENO, env[j], strlen(env[j]));
+				write(STDOUT_FILENO, "\n", 1);
+				j++;
+			}
+
+			free(buffer);
+			continue;
+		}
 		token = strtok(buffer, " \n");
 
-		array = malloc(sizeof(char *) * MAX_LEN);
+		array = malloc(sizeof(* array) * MAX_LEN);
 
 		if (array == NULL)
-		{
-			perror("Memory allocation failed\n");
-			return (-1);
-		}
+			perr_exit("Memory allocation failed\n", 1);
 
 		while (token)
 		{
@@ -81,3 +99,4 @@ int main(int argc, char *argv[])
 	free(buffer);
 	return (0);
 }
+

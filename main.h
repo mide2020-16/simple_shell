@@ -11,6 +11,8 @@
 
 #define MAX_LEN 1024
 
+extern char **environ;
+
 /*Helper Functions*/
 char *get_file_location(char *path, char* filename);
 char *get_file_path(char *filename);

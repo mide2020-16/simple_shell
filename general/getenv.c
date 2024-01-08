@@ -46,7 +46,7 @@ int main(int ac, char **av)
 
 	name = av[1];
 
-	if ((value == _getenv(name)) != NULL)
+	if ((value = _getenv(name)) != NULL)
 		printf("%s = %s\n", name, value);
 	else
 		printf("%s not found in the environment\n", name);

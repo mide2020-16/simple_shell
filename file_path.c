@@ -83,7 +83,6 @@ char *get_file_path(char *file_name)
 
   if (starts_with_fwd_slash(file_name) && access(file_name, X_OK) == 0)
   {
-    free(copy_file);
     return (copy_file);
   }
   if (!path)
@@ -100,5 +99,6 @@ char *get_file_path(char *file_name)
     return (NULL);
   }
 
+  free(copy_file);
   return (full_path);
 }
