@@ -36,7 +36,7 @@ char *get_file_loc(char *path, char* filename)
       exit(EXIT_FAILURE);
     }
 
-    sprintf(path_buffer, "%s/%s\0", token, filename);
+    sprintf(path_buffer, "%s/%s", token, filename);
 
     if (stat(path_buffer, &st) == 0 && access(path_buffer, X_OK) == 0)
     {
