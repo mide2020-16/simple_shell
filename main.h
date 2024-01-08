@@ -11,8 +11,8 @@
 
 #define MAX_LEN 1024
 
-
-char *get_file_loc(char *path, char* filename);
+/*Helper Functions*/
+char *get_file_location(char *path, char* filename);
 char *get_file_path(char *filename);
 int starts_with_fwd_slash(const char *str);
 

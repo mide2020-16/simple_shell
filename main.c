@@ -1,82 +1,83 @@
 #include "main.h"
 
 
+/**
+ * perr_exit - Prints error message and exit with code
+ * @message: The message to print
+ * @exit_code: the exit code
+*/
+void perr_exit(char *message, int exit_code)
+{
+	perror(message);
+	exit(exit_code);
+}
+
+/**
+ * main - Entry point to the shell
+ * @argc: Argument count to the shell
+ * @argv: Argument vector to the shell
+ * Return: 0 Always on Success
+*/
 int main(int argc, char *argv[])
 {
-  char *buffer;
-  size_t n;
-  ssize_t nread;
-  pid_t child_pid;
-  int status;
-  char *token;
-  char **array;
-  int i;
-  char *path;
+	char *buffer, *token, **array, *path;
+	size_t n;
+	ssize_t nread;
+	pid_t child_pid;
+	int status, i;
 
-  (void)argc, (void)argv;
+	(void)argc, (void)argv;
 
-  while (1)
-  {
-    write(STDOUT_FILENO, "$ ", 2);
+	while (1)
+	{
+		write(STDOUT_FILENO, "$ ", 2);
 
-    nread = getline(&buffer, &n, stdin);
+		buffer = NULL;
+		i = 0;
 
-    if (nread == -1)
-    {
-      perror("getline");
-      exit(1);
-    }
+		nread = getline(&buffer, &n, stdin);
 
-    token = strtok(buffer, " \n");
+		if (nread == -1)
+			exit(1);
 
-    array = malloc(sizeof(char *) * MAX_LEN);
+		token = strtok(buffer, " \n");
 
-    if (array == NULL)
-    {
-      perror("Memory allocation failed\n");
-      return (-1);
-    }
+		array = malloc(sizeof(char *) * MAX_LEN);
 
-    i = 0;
+		if (array == NULL)
+		{
+			perror("Memory allocation failed\n");
+			return (-1);
+		}
 
-    while (token)
-    {
-      array[i] = token;
-      token = strtok(NULL, " \n");
-      i++;
-    }
+		while (token)
+		{
+			array[i] = token;
+			token = strtok(NULL, " \n");
+			i++;
+		}
 
-    array[i] = NULL;
+		array[i] = NULL;
 
-    path = get_file_path(array[0]);
+		path = get_file_path(array[0]);
 
-    if (path != NULL)
-    {
-      child_pid = fork();
-    }
+		if (path != NULL)
+			child_pid = fork();
 
-    if (child_pid == -1)
-    {
-      perror("fork");
-      exit(41);
-    }
+		if (child_pid == -1)
+			perr_exit("Invalid path\n", 41);
 
-    if (child_pid == 0)
-    {
-      if (execve(path, array, NULL) == -1)
-      {
-        perror("execve");
-        exit(97);
-      }
-    }
-    else
-    {
-      wait(&status);
-    }
-    
-  }
+		if (child_pid == 0)
+		{
+			if (execve(path, array, NULL) == -1)
+				perr_exit("./hsh", 97)
+		}
+		else
+			wait(&status);
+		
+		free(array);
+	}
 
-  free(array);
-  free(buffer);
-  return (0);
+	free(buffer);
+	return (0);
 }
