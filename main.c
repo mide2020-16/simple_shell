@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 		if (child_pid == 0)
 		{
 			if (execve(path, array, NULL) == -1)
-				perr_exit("./hsh", 97)
+				perr_exit("./hsh", 97);
 		}
 		else
 			wait(&status);

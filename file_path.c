@@ -92,7 +92,7 @@ char *get_file_path(char *file_name)
     return (NULL);
   }
 
-  full_path = get_file_loc(path, file_name);
+  full_path = get_file_location(path, file_name);
 
   if (full_path == NULL)
   {
