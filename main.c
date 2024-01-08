@@ -3,7 +3,6 @@
 
 int main(int argc, char *argv[])
 {
-  (void)argc, (void)argv;
   char *buffer;
   size_t n;
   ssize_t nread;
@@ -13,6 +12,8 @@ int main(int argc, char *argv[])
   char **array;
   int i;
   char *path;
+
+  (void)argc, (void)argv;
 
   while (1)
   {

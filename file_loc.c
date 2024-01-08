@@ -2,7 +2,7 @@
 
 int starts_with_fwd_slash(const char *str)
 {
-  if (str != NULL || str == '/')
+  if (str != NULL || str[0] == '/')
     return (1);
 
   return (0);
@@ -14,7 +14,7 @@ int starts_with_fwd_slash(const char *str)
 char *get_file_loc(char *path, char* filename)
 {
   char *copy_path, *token;
-  struct stat file_info;
+  struct stat st;
   char *path_buffer = NULL;
 
   copy_path = strdup(path);
@@ -37,9 +37,9 @@ char *get_file_loc(char *path, char* filename)
     }
 
     sprintf(path_buffer, "%s/%s", token, filename);
-    strcat(path_buffer, '\0');
+    strcpy(path_buffer, '\0');
 
-    if (stat(path_buffer, &file_info) == 0 && access(path_buffer, X_OK) == 0)
+    if (stat(path_buffer, &st) == 0 && access(path_buffer, X_OK) == 0)
     {
       free(copy_path);
       return (path_buffer);
@@ -73,7 +73,7 @@ char *get_file_path(char *filename)
 
   path = getenv("PATH");
 
-  if (strarts_with_fwd_slash(filename) && access(filename, X_OK) == 0)
+  if (starts_with_fwd_slash(filename) && access(filename, X_OK) == 0)
     return (copy_file);
   if (!path)
   {
