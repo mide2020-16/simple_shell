@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 
 	if (bytesRead != (size_t)-1)
 	{
-		printf("Bytes read: %u\n", bytesRead);
+		printf("Bytes read: %lu\n", bytesRead);
 		printf("Line: %s\n", line);
 	}
 	else
