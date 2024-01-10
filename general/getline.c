@@ -71,7 +71,7 @@ int main(void)
 	printf("$ ");
 	chars_read = get_line(&line, &len, stdin);
 	if (chars_read != unary)
-		printf("Read %u characters: %s", chars_read, line);
+		printf("Read %lu characters: %s", chars_read, line);
 	else
 		perror("Error reading input");
 	free(line);
@@ -81,7 +81,7 @@ int main(void)
 	printf("$ ");
 	chars_read = get_line(&line, &len, stdin);
 	if (chars_read != unary)
-		printf("Read %u characters: %s", chars_read, line);
+		printf("Read %lu characters: %s", chars_read, line);
 	else
 		perror("Error reading input");
 	free(line);
@@ -91,7 +91,7 @@ int main(void)
 	printf("$ ");
 	chars_read = get_line(&line, &len, stdin);
 	if (chars_read != unary)
-		printf("Read %u characters: %s", chars_read, line);
+		printf("Read %lu characters: %s", chars_read, line);
 	else
 		perror("Error reading input");
 	free(line);
@@ -106,7 +106,7 @@ int main(void)
 	}
 	chars_read = get_line(&line, &len, file);
 	if (chars_read != unary)
-		printf("Read %u characters: %s", chars_read, line);
+		printf("Read %lu characters: %s", chars_read, line);
 	else
 		perror("Error reading input");
 	free(line);
