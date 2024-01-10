@@ -62,11 +62,11 @@ int main(int argc, char *argv[])
 			continue;
 		}
 
-		if (feof(stdin) == 0)
+		/*if (feof(stdin) == 0)
 		{
 			free(buffer);
 			exit(1);
-		}
+		}*/
 		token = strtok(buffer, " \n");
 
 		array = malloc(sizeof(* array) * MAX_LEN);
