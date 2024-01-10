@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 			free(buffer);
 			exit(1);
 		}
-		token = _strtok(buffer, " \n");
+		token = strtok(buffer, " \n");
 
 		array = malloc(sizeof(* array) * MAX_LEN);
 
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 		while (token)
 		{
 			array[i] = token;
-			token = _strtok(NULL, " \n");
+			token = strtok(NULL, " \n");
 			i++;
 		}
 
