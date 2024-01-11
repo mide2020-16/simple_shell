@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "", 0);
+		/*write(STDOUT_FILENO, "", 0);*/
 
 		buffer = NULL;
 		i = 0;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		nread = getline(&buffer, &n, stdin);
 
 		if (nread == -1)
-			perr_exit("", 1);
+			perr_exit("", 0);
 		
 		if (strcmp(buffer, "exit\n") == 0)
 		{
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 			child_pid = fork();
 
 		if (child_pid == -1)
-			perr_exit("Invalid path\n", 41);
+			perr_exit("Invalid path\n", 0);
 
 		if (child_pid == 0)
 		{
