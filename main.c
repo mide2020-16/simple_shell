@@ -80,10 +80,12 @@ int main(int argc, char *argv[])
 			token = strtok(NULL, " \n");
 			i++;
 		}
-
+		printf("Token: %s\n", array[i]);
 		array[i] = NULL;
 
 		path = get_file_path(array[0]);
+		
+		printf("Executing command: %s\n", path);
 
 		if (path != NULL)
 			child_pid = fork();
