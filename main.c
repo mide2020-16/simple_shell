@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
 		nread = getline(&buffer, &n, stdin);
 
 		if (nread == -1)
-			perr_exit("", 0);
-		
+			exit(0);
+
 		if (strcmp(buffer, "exit\n") == 0)
 		{
 			free(buffer);
