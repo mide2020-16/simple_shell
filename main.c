@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "$ ", 2);
+		write(STDOUT_FILENO, "", 0);
 
 		buffer = NULL;
 		i = 0;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		nread = getline(&buffer, &n, stdin);
 
 		if (nread == -1)
-			perr_exit("Unable to read the line\n", 1);
+			perr_exit("", 1);
 		
 		if (strcmp(buffer, "exit\n") == 0)
 		{
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 		array[i] = NULL;
 
 		path = get_file_path(array[0]);
-		
+
 		printf("Executing command: %s\n", path);
 
 		if (path != NULL)
