@@ -1,7 +1,8 @@
 #include "main.h"
 
 
-/*int main()
+/*
+int main()
 {
 	const char original_str[] = "This is a sample string";
 	const char delim[] = " ";
@@ -14,7 +15,8 @@
 	}
 
 	return 0;
-}*/
+}
+*/
 
 /**
  * _strtok - Tokenize a string
@@ -54,4 +56,3 @@ char *_strtok(char *string, const char *delimiter)
 
 	return (string);
 }
-

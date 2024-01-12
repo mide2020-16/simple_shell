@@ -4,7 +4,8 @@
 
 #define MAX_BUF 1024
 
-/*int main(int argc, char *argv[])
+/*
+int main(int argc, char *argv[])
 {
 	char *line = NULL;
 	size_t len = 0;
@@ -40,8 +41,31 @@
 	free(line);
 	fclose(file);
 	return 0;
-}*/
+}
+*/
 
+/**
+ * alloc_mem - Allocate memory and also give size to n
+ * @lineptr: the pointer to the pointer of a line
+ * @n: pointer to the length 
+ * @i: an indexing i
+ * Return: n on Success
+*/
+size_t alloc_mem(char **lineptr, size_t *n, static size_t i)
+{
+	if (*lineptr == NULL)
+	{
+		*lineptr = malloc(*n + MAX_BUF);
+
+		if (*lineptr == NULL)
+			perr_return("Memory allocation failed\n", -1);
+
+		*n = MAX_BUF;
+		i = 0;
+
+		return (*n);
+	}
+}
 /**
  * perr_return - Prints error and return
  * @message: the message to print
@@ -70,17 +94,8 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 	if (*lineptr == NULL || *n == 0 || stream == NULL)
 		return (-1);
 
-	if (*lineptr == NULL)
-	{
-		*lineptr = malloc(*n + MAX_BUF);
-
-		if (*lineptr == NULL)
-			perr_return("Memory allocation failed\n", -1);
-
-		*n = MAX_BUF;
-		i = 0;
-	}
-
+	alloc_mem(*lineptr, n, i);
+	
 	while ((read_bytes = read(fileno(stream), buffer, sizeof(buffer))) > 0)
 	{
 		for (j = 0; j < read_bytes; j++)
@@ -102,8 +117,6 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 				return (i);
 			}
 		}
-		
-
 	}
 
 	z = 0;
@@ -113,5 +126,3 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 
 	return (i);
 }
-
-

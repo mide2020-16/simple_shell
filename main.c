@@ -18,6 +18,7 @@ void perr_exit(char *message, int exit_code)
  * @argv: Argument vector to the shell
  * Return: 0 Always on Success
 */
+
 int main(int argc, char *argv[])
 {
 	char *buffer, *token, **array, *path, **env;
@@ -27,16 +28,13 @@ int main(int argc, char *argv[])
 	int status, i, j;
 
 	(void)argc, (void)argv;
-
 	while (1)
 	{
-		/*write(STDOUT_FILENO, "", 0);*/
-
+		/*write(STDOUT_FILENO, "$ ", 2);*/
 		buffer = NULL;
 		i = 0;
 
 		nread = getline(&buffer, &n, stdin);
-
 		if (nread == -1)
 			exit(0);
 
@@ -51,24 +49,16 @@ int main(int argc, char *argv[])
 			env = environ;
 			j = 0;
 
-			while(env[j] != NULL)
+			while (env[j] != NULL)
 			{
 				write(STDOUT_FILENO, env[j], strlen(env[j]));
 				write(STDOUT_FILENO, "\n", 1);
 				j++;
 			}
-
 			free(buffer);
 			continue;
 		}
-
-		/*if (feof(stdin) == 0)
-		{
-			free(buffer);
-			exit(1);
-		}*/
 		token = strtok(buffer, " \n");
-
 		array = malloc(sizeof(* array) * MAX_LEN);
 
 		if (array == NULL)
@@ -80,13 +70,9 @@ int main(int argc, char *argv[])
 			token = strtok(NULL, " \n");
 			i++;
 		}
-		/*printf("Token: %s\n", array[i]);*/
 		array[i] = NULL;
 
 		path = get_file_path(array[0]);
-
-		/*printf("Executing command: %s\n", path);*/
-
 		if (path != NULL)
 			child_pid = fork();
 
@@ -100,11 +86,10 @@ int main(int argc, char *argv[])
 		}
 		else
 			wait(&status);
-		
+
 		free(array);
 	}
 
 	free(buffer);
 	return (0);
 }
-

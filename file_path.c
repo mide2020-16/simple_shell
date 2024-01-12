@@ -26,7 +26,7 @@ int starts_with_fwd_slash(const char *str)
  * Return: the path if conditions are met
 */
 
-char *get_file_location(char *path, char* file_name)
+char *get_file_location(char *path, char *file_name)
 {
 	char *copy_path, *token;
 	struct stat st;

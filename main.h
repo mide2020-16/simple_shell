@@ -14,7 +14,7 @@
 extern char **environ;
 
 /*Helper Functions*/
-char *get_file_location(char *path, char* filename);
+char *get_file_location(char *path, char *file_name);
 char *get_file_path(char *filename);
 int starts_with_fwd_slash(const char *str);
 
