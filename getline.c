@@ -94,7 +94,7 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 	if (*lineptr == NULL || *n == 0 || stream == NULL)
 		return (-1);
 
-	alloc_mem(lineptr, n, i);
+	alloc_mem(lineptr, n);
 	i = 0;
 
 	while ((read_bytes = read(fileno(stream), buffer, sizeof(buffer))) > 0)
