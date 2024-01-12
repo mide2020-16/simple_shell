@@ -44,28 +44,7 @@ int main(int argc, char *argv[])
 }
 */
 
-/**
- * alloc_mem - Allocate memory and also give size to n
- * @lineptr: the pointer to the pointer of a line
- * @n: pointer to the length 
- * @i: an indexing i
- * Return: n on Success
-*/
-size_t alloc_mem(char **lineptr, size_t *n, static size_t i)
-{
-	if (*lineptr == NULL)
-	{
-		*lineptr = malloc(*n + MAX_BUF);
 
-		if (*lineptr == NULL)
-			perr_return("Memory allocation failed\n", -1);
-
-		*n = MAX_BUF;
-		i = 0;
-
-		return (*n);
-	}
-}
 /**
  * perr_return - Prints error and return
  * @message: the message to print
@@ -79,6 +58,27 @@ int perr_return(char *message, int num)
 }
 
 /**
+ * alloc_mem - Allocate memory and also give size to n
+ * @lineptr: the pointer to the pointer of a line
+ * @n: pointer to the length 
+ * @i: an indexing i
+ * Return: n on Success
+*/
+void alloc_mem(char **lineptr, size_t *n, size_t i)
+{
+	if (*lineptr == NULL)
+	{
+		*lineptr = malloc(*n + MAX_BUF);
+
+		if (*lineptr == NULL)
+			perr_return("Memory allocation failed\n", -1);
+
+		*n = MAX_BUF;
+		i = 0;
+	}
+}
+
+/**
  * _getline - A simple implementation of getline()
  * @lineptr: a pointer to the output
  * @n: size of bytes to read
@@ -89,13 +89,15 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	static size_t i;
 	static char buffer[MAX_BUF];
-	size_t read_bytes, j, z;
+	size_t read_bytes, j;
+
+	i = 0;
 
 	if (*lineptr == NULL || *n == 0 || stream == NULL)
 		return (-1);
 
-	alloc_mem(*lineptr, n, i);
-	
+	alloc_mem(&lineptr, n, i);
+
 	while ((read_bytes = read(fileno(stream), buffer, sizeof(buffer))) > 0)
 	{
 		for (j = 0; j < read_bytes; j++)
@@ -119,9 +121,7 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 		}
 	}
 
-	z = 0;
-
-	if (read_bytes < z)
+	if (read_bytes == 0)
 		perr_return("Error reading from stream\n", -1);
 
 	return (i);

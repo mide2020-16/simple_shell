@@ -59,7 +59,8 @@ int main(int argc, char *argv[])
 			continue;
 		}
 		token = strtok(buffer, " \n");
-		array = malloc(sizeof(* array) * MAX_LEN);
+
+		array = malloc(sizeof(*array) * MAX_LEN);
 
 		if (array == NULL)
 			perr_exit("Memory allocation failed\n", 1);
