@@ -64,7 +64,7 @@ int perr_return(char *message, int num)
  * @i: an indexing i
  * Return: n on Success
 */
-void alloc_mem(char **lineptr, size_t *n, size_t i)
+void alloc_mem(char **lineptr, size_t *n)
 {
 	if (*lineptr == NULL)
 	{
@@ -74,7 +74,6 @@ void alloc_mem(char **lineptr, size_t *n, size_t i)
 			perr_return("Memory allocation failed\n", -1);
 
 		*n = MAX_BUF;
-		i = 0;
 	}
 }
 
@@ -91,12 +90,12 @@ size_t _getline(char **lineptr, size_t *n, FILE *stream)
 	static char buffer[MAX_BUF];
 	size_t read_bytes, j;
 
-	i = 0;
 
 	if (*lineptr == NULL || *n == 0 || stream == NULL)
 		return (-1);
 
-	alloc_mem(&lineptr, n, i);
+	alloc_mem(lineptr, n, i);
+	i = 0;
 
 	while ((read_bytes = read(fileno(stream), buffer, sizeof(buffer))) > 0)
 	{
