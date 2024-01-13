@@ -8,7 +8,7 @@
 void execute_commands(char **user_args, char **envp)
 {
     pid_t child_pid;
-    int status;
+    int status, i;
     char *path_to_exec, *path;
 
     if (_strcmp(user_args[0], "exit") == 0)
@@ -23,39 +23,59 @@ void execute_commands(char **user_args, char **envp)
         cd_builtin(user_args[1]);
     else
     {
-        path_to_exec = _strdup(user_args[0]);
-        path = get_file_path(path_to_exec);
+			i = 0;
+			while (user_args[i] != NULL)
+			{
+				if (_strcmp(user_args[i], "&&") == 0)
+				{
+					if (status == 0)
+						i++;
+					else
+						return;
+				}
+				else if (_strcmp(user_args[i], "||") == 0)
+				{
+					if (status != 0)
+						i++;
+					else
+						return;
+				}
+				else
+				{
+					path_to_exec = _strdup(user_args[i]);
+					path = get_file_path(path_to_exec);
 
-        if (path == NULL)
-        {
-            free_user_args(user_args);
-            return;
-        }
+					if (path == NULL)
+					{
+						free_user_args(user_args);
+						return;
+					}
 
-        free(user_args[0]);
+					free(user_args[i]);
 
-        if (path != NULL)
-        {
-            child_pid = fork();
+					if (path != NULL)
+					{
+							child_pid = fork();
 
-            if (child_pid == -1)
-            {
-                perror("fork");
-                return;
-            }
+							if (child_pid == -1)
+							{
+									perror("fork");
+									return;
+							}
 
-            if (child_pid == 0)
-            {
-                execve(path, user_args, envp);
-                perror(path);
-            }
-            else
-            {
-                wait(&status);
-            }
-        }
+							if (child_pid == 0)
+							{
+									execve(path, user_args, envp);
+									perror(path);
+							}
+							else
+									wait(&status);
+					}
 
-        free(path_to_exec);
+					free(path_to_exec);
+					i++;
+				}
+			}
     }
 }
 
@@ -65,6 +85,7 @@ void execute_commands(char **user_args, char **envp)
  * @argv: Vector of arguments passed to main
  * @envp: The environmental variable for the main process
  */
+
 int main(int argc, char **argv, char **envp)
 {
     char **user_args, **commands, *command;
