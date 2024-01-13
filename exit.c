@@ -11,7 +11,7 @@ void exit_handler(char *exit_code)
 
 	if (exit_code != NULL)
 	{
-		exit_status = _atoi(*exit_code);
+		exit_status = _atoi(exit_code);
 		exit(exit_status);
 	}
 	else

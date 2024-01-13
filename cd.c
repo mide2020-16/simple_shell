@@ -1,12 +1,12 @@
 #include "shell.h"
 
-int _cd(const char *directory)
+int _cd(char *directory)
 {
-		char *new_path;
+		char *new_path, cwd[MAX_LEN];
+
 
 		if (directory == NULL)
 		{
-				// Change to home directory if no argument is provided
 				new_path = _getenv("HOME");
 
 				if (new_path == NULL)
@@ -17,7 +17,6 @@ int _cd(const char *directory)
 		}
 		else if (_strcmp(directory, "-") == 0)
 		{
-				// Change to previous directory
 				new_path = _getenv("OLDPWD");
 
 				if (new_path == NULL)
@@ -38,8 +37,6 @@ int _cd(const char *directory)
 				return -1;
 		}
 
-		// Update PWD and OLDPWD in the environment
-		char cwd[MAX_LEN];
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 		{
 				perror("getcwd");

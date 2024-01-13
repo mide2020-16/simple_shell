@@ -36,6 +36,7 @@ int _strcmp(char *str1, char *str2);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
 int _snprintf(char *buffer, size_t size, const char *format, ...);
+int _cd(char *directory);
 int _strcpy(char *dest, size_t size, const char *src);
 int _atoi(const char *str);
 void _printenv();
