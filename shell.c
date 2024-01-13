@@ -1,6 +1,19 @@
 #include "shell.h"
 
 /**
+ * print_prompt - Prints a prompt if the input is from the terminal and not from the shell
+ * @c: the character to print out
+ * @len: the length of the character to print
+ */
+void print_prompt(char *c, int len)
+{
+    if (isatty(STDIN_FILENO))
+    {
+        write(STDOUT_FILENO, c, len);
+    }
+}
+
+/**
  * execute_commands - Execute a single command
  * @user_args: The arguments of the command
  * @envp: The environment variables
@@ -20,7 +33,7 @@ void execute_commands(char **user_args, char **envp)
     else if (_strcmp(user_args[0], "unsetenv") == 0)
         unsetenv_builtin(user_args[1]);
     else if (_strcmp(user_args[0], "cd") == 0)
-        cd_builtin(user_args[1]);
+        _cd(user_args[1]);
     else
     {
 			i = 0;
@@ -91,7 +104,7 @@ int main(int argc, char **argv, char **envp)
     char **user_args, **commands, *command;
     int i;
 
-    (void)argc;
+    (void)argc, (void)argv;
 
     while (1)
     {

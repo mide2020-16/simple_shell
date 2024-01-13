@@ -8,13 +8,13 @@
 
 int _unsetenv(const char *name)
 {
-	int i = 0;
+	int i = 0, j;
 
 	while (environ[i] != NULL)
 	{
 		if (strncmp(environ[i], name, strlen(name)) == 0 && environ[i][strlen(name)] == '=')
 		{
-			for (int j = i; environ[j] != NULL; ++j)
+			for (j = i; environ[j] != NULL; ++j)
 				environ[j] = environ[j + 1];
 			return (0);
 		}
