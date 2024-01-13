@@ -18,7 +18,7 @@ void print_prompt(char *c, int len)
  * @user_args: The arguments of the command
  * @envp: The environment variables
  */
-void execute_commands(char *user_args, char **envp)
+void execute_commands(char **user_args, char **envp)
 {
     pid_t child_pid;
     int status, i;
