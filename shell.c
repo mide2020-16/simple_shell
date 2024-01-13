@@ -101,32 +101,37 @@ void execute_commands(char **user_args, char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-    char **user_args, **commands, *command;
-    int i;
+    char **user_args, **commands, *command, **single_command
+    int i, j;
 
     (void)argc, (void)argv;
 
-    while (1)
+while (1)
+{
+    print_prompt("$ ", _strlen("$ "));
+
+    user_args = get_input_from_user();
+
+    if (user_args == NULL)
+        continue;
+
+    for (i = 0; user_args[i] != NULL; i++)
     {
-        print_prompt("$ ", _strlen("$ "));
-
-        user_args = get_input_from_user();
-
-        if (user_args == NULL)
-            continue;
-
-        commands = _tokenize(user_args);
-
-        for (i = 0; commands[i] != NULL; i++)
+        commands = _tokenize(user_args[i]);
+        for (j = 0; commands[j] != NULL; j++)
         {
-            command = _strdup(commands[i]);
-            user_args = _tokenize(command);
-            execute_commands(user_args, envp);
+            command = _strdup(commands[j]);
+            single_command = _tokenize(command);
+            execute_commands(single_command, envp);
             free(command);
+            free_user_args(single_command);
         }
-
         free_user_args(commands);
     }
+
+    free_user_args(user_args);
+}
+
 
     free(user_args);
     return 0;
