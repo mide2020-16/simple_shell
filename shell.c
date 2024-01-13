@@ -101,7 +101,7 @@ void execute_commands(char **user_args, char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-    char **user_args, **commands, *command, **single_command
+    char **user_args, **commands, *command, **single_command;
     int i, j;
 
     (void)argc, (void)argv;
