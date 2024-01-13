@@ -31,7 +31,7 @@ void exit_handler(char *exit_code);
 char *_getenv(const char *name);
 char *_strdup(const char *string);
 char *_strtok(char *string, const char *delimiter);
-int _strlen(char *str);
+int _strlen(const char *str);
 int _strcmp(char *str1, char *str2);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
