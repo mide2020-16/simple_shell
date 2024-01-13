@@ -34,4 +34,8 @@ Contributions are welcome! If you have suggestions, bug reports, or would like t
 - Inspiration from various open-source shell implementations.
 - Online resources and tutorials on shell programming.
 
+## Author
+
+- Efuwape Ayomide Oreoluwa <efuwapeayomide51@gmail.com>
+
 Happy coding :).
