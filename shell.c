@@ -47,9 +47,7 @@ void command_handlers(char **user_args)
  * _exec_path - Execute with path
  * @path: path
  * @user_args: user args
- * @child_pid: child process
  * @envp: env variables
- * @status: status
  * Return: Nothing
 */
 
@@ -113,7 +111,8 @@ void execute_commands(char **user_args, char **envp)
 		_exec_path(path, user_args, envp);
 		free(path_to_exec);
 		i++;
-		/*if (_strcmp(user_args[i], "&&") == 0)
+		/*
+		if (_strcmp(user_args[i], "&&") == 0)
 		{
 			if (status == 0)
 				i++;
@@ -126,7 +125,8 @@ void execute_commands(char **user_args, char **envp)
 				i++;
 			else
 				return;
-		}*/
+		}
+		*/
 	}
 }
 
