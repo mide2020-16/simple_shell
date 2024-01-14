@@ -55,7 +55,7 @@ void command_handlers(char **user_args)
 
 void _exec_path(char *path, char **user_args, char **envp)
 {
-	int status
+	int status;
 	pid_t child_pid;
 
 
