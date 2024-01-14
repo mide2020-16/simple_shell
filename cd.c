@@ -2,13 +2,11 @@
 
 /**
  * _fprintf - Fprintf
- * @message: message
  * Return: -1
  */
 
-int _fprintf(char *message)
+int _fprintf(void)
 {
-	fprintf(stderr, message);
 	return (-1);
 }
 
@@ -41,12 +39,12 @@ int _cd(char *directory)
 		new_path = _getenv("HOME");
 
 		if (new_path == NULL)
-			_fprintf("cd: No home directory found\n");
+			_fprintf();
 		else if (_strcmp(directory, "-") == 0)
 		{
 			new_path = _getenv("OLDPWD");
 			if (new_path == NULL)
-				_fprintf("cd: Previous directory not set\n");
+				_fprintf();
 		}
 		else
 			new_path = _strdup(directory);
@@ -61,6 +59,6 @@ int _cd(char *directory)
 		setenv_builtin("OLDPWD", _getenv("PWD"), 1);
 
 		free(new_path);
-		return (0);
 	}
+	return (0);
 }

@@ -12,7 +12,7 @@ int _snprintf(char *buffer, size_t size, const char *format, ...)
 {
 	va_list args;
 	int written = 0, remaining, len;
-	const char *c, *string, char character;
+	const char *c, *string, character;
 
 	va_start(args, format);
 	if (size == 0)

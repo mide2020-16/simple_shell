@@ -5,13 +5,17 @@
  * @c: the character to print out
  * @len: the length of the character to print
  */
+
 void print_prompt(char *c, int len)
 {
 	if (isatty(STDIN_FILENO))
-	{
 		write(STDOUT_FILENO, c, len);
-	}
 }
+
+
+
+
+
 
 /**
  * command_handlers - distinct commands
@@ -32,6 +36,13 @@ void command_handlers(char **user_args)
 		_cd(user_args[1]);
 }
 
+
+
+
+
+
+
+
 /**
  * _exec_path - Execute with path
  * @path: path
@@ -41,32 +52,43 @@ void command_handlers(char **user_args)
  * @status: status
  * Return: Nothing
 */
-void _exec_path(char *path, char **user_args, pid_t child_pid, char **envp, int status)
+
+void _exec_path(char *path, char **user_args char **envp)
 {
-  if (path == NULL)
-  {
-    free_user_args(user_args);
-    return;
-  }
-  if (path != NULL)
-				{
-					child_pid = fork();
+	int status
+	pid_t child_pid;
 
-					if (child_pid == -1)
-					{
-						perror("fork");
-						return;
-					}
 
-					if (child_pid == 0)
-					{
-						execve(path, user_args, envp);
-						perror(path);
-					}
-					else
-						wait(&status);
-				}
+  	if (path != NULL)
+	{
+		child_pid = fork();
+
+		if (child_pid == -1)
+		{
+			perror("fork");
+			return;
+		}
+
+		if (child_pid == 0)
+		{
+			execve(path, user_args, envp);
+			perror(path);
+		}
+		else
+			wait(&status);
+	}
+
+	if (path == NULL)
+	{
+		free_user_args(user_args);
+		return;
+	}
 }
+
+
+
+
+
 
 
 /**
@@ -77,40 +99,36 @@ void _exec_path(char *path, char **user_args, pid_t child_pid, char **envp, int 
 
 void execute_commands(char **user_args, char **envp)
 {
-	pid_t child_pid;
-	int status, i;
+	int i;
 	char *path_to_exec, *path;
 
 	command_handlers(user_args);
-	else
+	i = 0;
+	while (user_args[i] != NULL)
 	{
-		i = 0;
-		while (user_args[i] != NULL)
+		if (_strcmp(user_args[i], "&&") == 0)
 		{
-			if (_strcmp(user_args[i], "&&") == 0)
-			{
-				if (status == 0)
-					i++;
-				else
-					return;
-			}
-			else if (_strcmp(user_args[i], "||") == 0)
-			{
-				if (status != 0)
-					i++;
-				else
-					return;
-			}
-			else
-			{
-				path_to_exec = _strdup(user_args[i]);
-				path = get_file_path(path_to_exec);
-
-				free(user_args[i]);
-				_exec_path(path, user_args, child_pid, envp, status);
-				free(path_to_exec);
+			if (status == 0)
 				i++;
-			}
+			else
+				return;
+		}
+		else if (_strcmp(user_args[i], "||") == 0)
+		{
+			if (status != 0)
+				i++;
+			else
+				return;
+		}
+		else
+		{
+			path_to_exec = _strdup(user_args[i]);
+			path = get_file_path(path_to_exec);
+
+			free(user_args[i]);
+			_exec_path(path, user_args, envp);
+			free(path_to_exec);
+			i++;
 		}
 	}
 }
