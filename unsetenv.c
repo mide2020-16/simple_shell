@@ -12,7 +12,7 @@ int _unsetenv(const char *name)
 
 	while (environ[i] != NULL)
 	{
-		if (strncmp(environ[i], name, strlen(name)) == 0 && environ[i][strlen(name)] == '=')
+		if (strcmp(environ[i], name) == 0 && environ[i][strlen(name)] == '=')
 		{
 			for (j = i; environ[j] != NULL; ++j)
 				environ[j] = environ[j + 1];

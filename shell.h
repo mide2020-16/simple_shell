@@ -39,6 +39,6 @@ int _snprintf(char *buffer, size_t size, const char *format, ...);
 int _cd(char *directory);
 int _strcpy(char *dest, size_t size, const char *src);
 int _atoi(const char *str);
-void _printenv();
+void _printenv(void);
 
 #endif /*SHELL_H*/

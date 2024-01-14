@@ -12,17 +12,17 @@ int setenv_builtin(const char *variable, const char *value, int overwrite)
 {
 		if (variable == NULL || value == NULL)
 		{
-				fprintf(stderr, "setenv: Invalid arguments\n");
-				return -1;
+			fprintf(stderr, "setenv: Invalid arguments\n");
+			return (-1);
 		}
 
 		if (_setenv(variable, value, overwrite) != 0)
 		{
-				fprintf(stderr, "setenv: Failed to set environment variable\n");
-				return -1;
+			fprintf(stderr, "setenv: Failed to set environment variable\n");
+			return (-1);
 		}
 
-		return 0;
+		return (0);
 }
 
 /**
@@ -35,15 +35,15 @@ int unsetenv_builtin(const char *variable)
 {
 		if (variable == NULL)
 		{
-				fprintf(stderr, "unsetenv: Invalid argument\n");
-				return -1;
+			fprintf(stderr, "unsetenv: Invalid argument\n");
+			return (-1);
 		}
 
 		if (_unsetenv(variable) != 0)
 		{
-				fprintf(stderr, "unsetenv: Failed to unset environment variable\n");
-				return -1;
+			fprintf(stderr, "unsetenv: Failed to unset environment variable\n");
+			return (-1);
 		}
 
-		return 0;
+		return (0);
 }

@@ -15,12 +15,9 @@ int _snprintf(char *buffer, size_t size, const char *format, ...)
 	char character;
 
 	va_start(args, format);
-
 	if (size == 0)
 		return (0);
-
 	remaining = size - 1;
-
 	for (c = format; *c != '\0'; ++c)
 	{
 		if (*c == '%' && *(c + 1) == 's')
@@ -50,10 +47,7 @@ int _snprintf(char *buffer, size_t size, const char *format, ...)
 			}
 		}
 	}
-
 	buffer[written] = '\0';
-
 	va_end(args);
-
 	return (written);
 }

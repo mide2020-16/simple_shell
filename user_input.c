@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * get_input_from_user - Gets input from user on 
- * the terminal and uses the tokenizer to break 
+ * get_input_from_user - Gets input from user on
+ * the terminal and uses the tokenizer to break
  * it down then put it in a NULL terminable array
  *
  * Return: NULL terminated string

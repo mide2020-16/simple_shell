@@ -3,7 +3,7 @@
 /**
  * _printenv - Prints the variables of the current process
 */
-void _printenv()
+void _printenv(void)
 {
 	int j = 0, length;
 
