@@ -53,7 +53,7 @@ void command_handlers(char **user_args)
  * Return: Nothing
 */
 
-void _exec_path(char *path, char **user_args char **envp)
+void _exec_path(char *path, char **user_args, char **envp)
 {
 	int status
 	pid_t child_pid;
@@ -99,7 +99,7 @@ void _exec_path(char *path, char **user_args char **envp)
 
 void execute_commands(char **user_args, char **envp)
 {
-	int i;
+	int i, status;
 	char *path_to_exec, *path;
 
 	command_handlers(user_args);
