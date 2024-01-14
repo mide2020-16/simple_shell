@@ -106,7 +106,14 @@ void execute_commands(char **user_args, char **envp)
 	i = 0;
 	while (user_args[i] != NULL)
 	{
-		if (_strcmp(user_args[i], "&&") == 0)
+		path_to_exec = _strdup(user_args[i]);
+		path = get_file_path(path_to_exec);
+
+		free(user_args[i]);
+		_exec_path(path, user_args, envp);
+		free(path_to_exec);
+		i++;
+		/*if (_strcmp(user_args[i], "&&") == 0)
 		{
 			if (status == 0)
 				i++;
@@ -119,17 +126,7 @@ void execute_commands(char **user_args, char **envp)
 				i++;
 			else
 				return;
-		}
-		else
-		{
-			path_to_exec = _strdup(user_args[i]);
-			path = get_file_path(path_to_exec);
-
-			free(user_args[i]);
-			_exec_path(path, user_args, envp);
-			free(path_to_exec);
-			i++;
-		}
+		}*/
 	}
 }
 
