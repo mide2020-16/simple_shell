@@ -14,16 +14,12 @@ void print_prompt(char *c, int len)
 }
 
 /**
- * execute_commands - Execute a single command
- * @user_args: The arguments of the command
- * @envp: The environment variables
+ * command_handlers - distinct commands
+ * @user_args: user arguments
  */
-void execute_commands(char **user_args, char **envp)
-{
-	pid_t child_pid;
-	int status, i;
-	char *path_to_exec, *path;
 
+void command_handlers(char **user_args)
+{
 	if (_strcmp(user_args[0], "exit") == 0)
 		exit_handler(user_args[1]);
 	else if (_strcmp(user_args[0], "env\n") == 0)
@@ -34,6 +30,21 @@ void execute_commands(char **user_args, char **envp)
 		unsetenv_builtin(user_args[1]);
 	else if (_strcmp(user_args[0], "cd") == 0)
 		_cd(user_args[1]);
+}
+
+/**
+ * execute_commands - Execute a single command
+ * @user_args: The arguments of the command
+ * @envp: The environment variables
+ */
+
+void execute_commands(char **user_args, char **envp)
+{
+	pid_t child_pid;
+	int status, i;
+	char *path_to_exec, *path;
+
+	command_handlers(user_args);
 	else
 	{
 		i = 0;
@@ -134,5 +145,5 @@ int main(int argc, char **argv, char **envp)
 	}
 
 	free(user_args);
-	return 0;
+	return (0);
 }
