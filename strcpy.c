@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * _strcpy - Copy string to a destination
+ * @dest: the dstination
+ * @size: the size
+ * @src: the source
+ * Return: len
+*/
 int _strcpy(char *dest, size_t size, const char *src)
 {
 	int len = 0;

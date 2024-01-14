@@ -97,6 +97,7 @@ void execute_commands(char **user_args, char **envp)
  * @argc: The number of arguments passed into the main
  * @argv: Vector of arguments passed to main
  * @envp: The environmental variable for the main process
+ * Return: 0 on Success
  */
 
 int main(int argc, char **argv, char **envp)

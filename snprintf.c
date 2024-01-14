@@ -1,13 +1,12 @@
 #include "shell.h"
 
-
 /**
  * _snprintf - Prints everything in a format into a buffer
- * @str: the buffer to print into
+ * @buffer: the buffer to print into
  * @size: the size of the format
  * @format: the string to print
+ * Return: the number of written
 */
-
 int _snprintf(char *buffer, size_t size, const char *format, ...)
 {
 	va_list args;

@@ -1,9 +1,14 @@
 #include <stdio.h>
 
+/**
+ * _atoi - convert stringed number to integer
+ * @str: the string
+ * Return: the converted type
+*/
+
 int _atoi(const char *str)
 {
-	int result = 0;
-	int sign = 1;
+	int result = 0, sign = 1;
 
 	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
 		str++;
@@ -22,5 +27,5 @@ int _atoi(const char *str)
 		str++;
 	}
 
-	return sign * result;
+	return (sign * result);
 }
