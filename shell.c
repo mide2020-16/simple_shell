@@ -99,7 +99,7 @@ void _exec_path(char *path, char **user_args, char **envp)
 
 void execute_commands(char **user_args, char **envp)
 {
-	int i, status;
+	int i;
 	char *path_to_exec, *path;
 
 	command_handlers(user_args);
